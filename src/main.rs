@@ -120,7 +120,10 @@ fn main() {
                                 match current_user {
                                     Some(ref user) => {
                                         println!("got message {} from user {}", message, user);
-                                        for (_, ref mut readr) in room.lock().unwrap().iter_mut() {
+                                        for (ref mut u, ref mut readr) in room.lock().unwrap().iter_mut() {
+                                            if u.to_string() == user.to_string() {
+                                                continue;
+                                            }
                                             let line = format!("{}\n",
                                                                user.to_string() + ": " + &message);
                                             readr.get_mut().write(line.as_bytes()).unwrap();
